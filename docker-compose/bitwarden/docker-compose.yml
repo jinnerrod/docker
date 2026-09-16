@@ -1,0 +1,34 @@
+version: '3.8'
+
+services:
+  bitwarden:
+    container_name: bitwarden_unified
+    depends_on:
+      - db
+    env_file:
+      - settings.env
+    image: ghcr.io/bitwarden/self-host:beta
+    restart: always
+    ports:
+      - "80:8080"   # Puerto HTTP
+      - "443:8443"  # Puerto HTTPS
+    volumes:
+      - ./bitwarden_data:/etc/bitwarden
+      - ./bitwarden_logs:/var/log/bitwarden
+
+  db:
+    container_name: bitwarden_db
+    environment:
+      MARIADB_USER: "bitwarden"
+      MARIADB_PASSWORD: "super_strong_password" # ¡Cámbialo!
+      MARIADB_DATABASE: "bitwarden_vault"
+      MARIADB_RANDOM_ROOT_PASSWORD: "true"
+    image: mariadb:10
+    restart: always
+    volumes:
+      - ./mariadb_data:/var/lib/mysql
+
+volumes:
+  bitwarden_data:
+  bitwarden_logs:
+  mariadb_data:
