@@ -1,0 +1,9 @@
+# Excluir todos los archivos de configuración local
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Excluir archivos de respaldo
+*.env
